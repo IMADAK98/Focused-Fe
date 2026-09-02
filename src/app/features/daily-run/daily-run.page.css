@@ -116,16 +116,18 @@
   font-weight: 600;
 }
 
-.day-card[data-kind='yes'] .day-card__status {
+.day-card[data-kind='today'] .day-card__status {
+  color: var(--rd-accent);
+}
+
+.day-card[data-kind='yes'] .day-card__status,
+.day-card[data-kind='today'] .day-card__status.is-yes {
   color: var(--rd-success);
 }
 
-.day-card[data-kind='no'] .day-card__status {
+.day-card[data-kind='no'] .day-card__status,
+.day-card[data-kind='today'] .day-card__status.is-no {
   color: var(--rd-danger);
-}
-
-.day-card[data-kind='today'] .day-card__status {
-  color: var(--rd-accent);
 }
 
 @media (max-width: 900px) {

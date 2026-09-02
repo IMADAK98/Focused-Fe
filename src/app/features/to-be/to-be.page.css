@@ -15,20 +15,23 @@
 .transition__now {
   display: inline-flex;
   align-items: center;
-  padding: 0.28rem 0.75rem;
+  padding: 0.35rem 0.85rem;
   border-radius: 9999px;
   font-size: 0.78rem;
   font-weight: 600;
+  border: 1px solid transparent;
 }
 
 .transition__was {
   background: #f3f4f6;
   color: #4b5563;
+  border-color: #e5e7eb;
 }
 
 .transition__now {
   background: var(--rd-accent-soft);
   color: var(--rd-accent);
+  border-color: #c7d2fe;
 }
 
 .transition__arrow {

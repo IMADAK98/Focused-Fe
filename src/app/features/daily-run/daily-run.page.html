@@ -39,7 +39,12 @@
             }
           </div>
 
-          <p class="day-card__status">{{ statusLabel(checkIn) }}</p>
+          <p
+            class="day-card__status"
+            [class.is-yes]="checkIn.completed === true"
+            [class.is-no]="checkIn.completed === false">
+            {{ statusLabel(checkIn) }}
+          </p>
         </article>
       }
     </div>

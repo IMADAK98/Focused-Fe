@@ -62,17 +62,19 @@ export class DailyRunPage {
   }
 
   statusLabel(day: DailyCheckIn): string {
+    if (day.completed === true) {
+      return 'Did the To-Be';
+    }
+    if (day.completed === false && this.kindOf(day) !== 'upcoming') {
+      return 'Missed today';
+    }
     switch (this.kindOf(day)) {
-      case 'yes':
-        return 'Did the To-Be';
-      case 'no':
-        return 'Missed today';
       case 'today':
         return 'Tap Yes or No';
       case 'deferred':
         return 'No deep Day-7 UI';
       default:
-        return '—';
+        return '';
     }
   }
 
