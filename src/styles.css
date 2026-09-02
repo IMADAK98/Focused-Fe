@@ -23,16 +23,44 @@
   --color-rd-on-accent: var(--rd-on-accent);
 }
 
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-display: swap;
-  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+html,
+body {
+  margin: 0;
+  min-height: 100%;
 }
 
 body {
-  margin: 0;
   font-family: var(--rd-font);
   background-color: var(--rd-bg);
   color: var(--rd-text-primary);
+}
+
+.rd-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.rd-page__body {
+  flex: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.rd-page__header h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--rd-text-primary);
+}
+
+.rd-page__header p {
+  margin: 0;
+  font-size: 0.925rem;
+  color: var(--rd-text-secondary);
 }

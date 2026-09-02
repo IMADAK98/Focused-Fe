@@ -1,0 +1,61 @@
+<div class="rd-page">
+  <div class="rd-page__body">
+    <header class="rd-page__header">
+      <h1>Daily Run — {{ focusArea()?.name }}</h1>
+      <p>7-day Run in progress. Light DailyCheckIn for Days 1–6. Day 7 evaluation deferred.</p>
+    </header>
+
+    <section class="progress-card">
+      <div class="progress-card__row">
+        <h2>Run progress</h2>
+        <p>
+          {{ filledCount() }} of {{ checkInTotal() }} check-ins · Day {{ todayDay() }} today
+        </p>
+      </div>
+      <div class="progress-card__track" aria-hidden="true">
+        <div class="progress-card__fill" [style.width.%]="progressPct()"></div>
+      </div>
+    </section>
+
+    <div class="day-grid">
+      @for (checkIn of dailyCheckIns(); track checkIn.day) {
+        <article class="day-card" [attr.data-kind]="kindOf(checkIn)">
+          <p class="day-card__day">Day {{ checkIn.day }}</p>
+          <h3 class="day-card__weekday">{{ checkIn.weekday }}</h3>
+          @if (kindLabel(checkIn)) {
+            <p class="day-card__kind">{{ kindLabel(checkIn) }}</p>
+          }
+
+          <div class="day-card__mid">
+            @if (kindOf(checkIn) === 'deferred') {
+              <div class="day-card__deferred">Evaluation later (deferred)</div>
+            } @else if (kindOf(checkIn) === 'upcoming') {
+              <p class="day-card__dash">—</p>
+            } @else {
+              <app-yes-no-toggle
+                [value]="checkIn.completed"
+                [prompt]="kindOf(checkIn) === 'today' && checkIn.completed === null"
+                (valueChange)="updateCheckIn(checkIn.day, $event)" />
+            }
+          </div>
+
+          <p
+            class="day-card__status"
+            [class.is-yes]="checkIn.completed === true"
+            [class.is-no]="checkIn.completed === false">
+            {{ statusLabel(checkIn) }}
+          </p>
+        </article>
+      }
+    </div>
+
+    <app-info-banner variant="muted">
+      Pattern: Design → Run → Signal → Adapt. Check-ins are signals; adaptation comes after the Run.
+    </app-info-banner>
+  </div>
+
+  <app-footer-cta
+    nextLabel="Save Check-in"
+    (back)="onBack()"
+    (next)="onSave()" />
+</div>

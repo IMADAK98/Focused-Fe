@@ -1,12 +1,12 @@
-import { FocusArea, IntakeChip, AsIsStage, Bottleneck, Outcome, ToBeStage, DailyCheckIn } from './types';
+import { DesignSession, FocusArea } from './types';
 
 export const FOCUS_AREAS: FocusArea[] = [
-  { id: 'morning-energy', name: 'Morning Energy', description: 'Build sustainable morning momentum' },
+  { id: 'morning-energy', name: 'Morning energy', description: 'Build sustainable morning momentum' },
   { id: 'deep-work', name: 'Deep Work', description: 'Protect focused work sessions' },
   { id: 'exercise', name: 'Exercise', description: 'Establish consistent movement' }
 ];
 
-export const MORNING_ENERGY_FIXTURE = {
+export const MORNING_ENERGY_FIXTURE: DesignSession = {
   focusArea: FOCUS_AREAS[0],
   intakeChips: [
     { id: '1', text: 'Waking up groggy', selected: true },
@@ -16,27 +16,92 @@ export const MORNING_ENERGY_FIXTURE = {
     { id: '5', text: 'Late to meetings', selected: false }
   ],
   asIsLoop: [
-    { type: 'cue' as const, content: 'Alarm goes off at 7am' },
-    { type: 'environment' as const, content: 'Phone on nightstand, dark room' },
-    { type: 'friction' as const, content: 'Hit snooze 3 times, scroll phone in bed for 20 min' }
+    {
+      id: 'asis-1',
+      type: 'cue',
+      title: 'Alarm rings',
+      body: '6:45am phone alarm on nightstand. First sound of the day.'
+    },
+    {
+      id: 'asis-2',
+      type: 'environment',
+      title: 'Phone within reach',
+      body: 'Dark room, curtains closed. Phone is the closest object.'
+    },
+    {
+      id: 'asis-3',
+      type: 'friction',
+      title: 'Snooze + scroll',
+      body: 'Hit snooze, open social feeds. 20–40 min lost before feet hit floor.'
+    },
+    {
+      id: 'asis-4',
+      type: 'cue',
+      title: 'Bladder / light hunger',
+      body: 'Secondary bodily cue that eventually forces getting up.'
+    },
+    {
+      id: 'asis-5',
+      type: 'environment',
+      title: 'Kitchen path unclear',
+      body: 'No water glass staged. Kitchen lights off — extra decisions.'
+    }
   ],
   bottleneck: {
-    stage: 'friction' as const,
-    content: 'Hit snooze 3 times, scroll phone in bed for 20 min',
-    reason: 'Phone accessibility + no energy anchor'
+    stageId: 'asis-3',
+    stage: 'friction',
+    title: 'Snooze + scroll',
+    reason: 'Highest stall: delay compounds before any positive action.'
   },
   outcome: {
-    what: 'Start the day with energy and intention',
-    why: 'Feel present and focused in morning meetings'
+    statement:
+      'Within 7 days: out of bed within 5 minutes of the first alarm, phone stays face-down until water and light.',
+    bottleneckNote: 'Bottleneck addressed: Snooze + scroll (Friction) — confirmed in Human Calibration.'
   },
   toBeLoop: [
-    { type: 'cue' as const, content: 'Alarm goes off at 7am' },
-    { type: 'environment' as const, content: 'Phone across room, water + journal on desk' },
-    { type: 'friction' as const, content: 'Get up immediately, drink water, 5-min journal' }
+    {
+      id: 'tobe-1',
+      type: 'cue',
+      title: 'Alarm across the room',
+      body: 'Alarm on dresser — must stand to silence.',
+      intervention: '+ Distance the cue'
+    },
+    {
+      id: 'tobe-2',
+      type: 'environment',
+      title: 'Water + open curtains',
+      body: 'Glass staged night before; daylight first.',
+      intervention: '+ Prep the path'
+    },
+    {
+      id: 'tobe-3',
+      type: 'friction',
+      title: 'Phone stays face-down',
+      body: 'No unlock until after water + light ritual.',
+      intervention: '+ Block the stall'
+    },
+    {
+      id: 'tobe-4',
+      type: 'cue',
+      title: 'Kitchen kettle click',
+      body: 'Boil water as next automatic step.',
+      intervention: '+ Chain cue'
+    },
+    {
+      id: 'tobe-5',
+      type: 'environment',
+      title: 'Bright kitchen ready',
+      body: 'Lights on timer; path friction removed.'
+    }
   ],
-  dailyCheckIns: Array.from({ length: 7 }, (_, i) => ({
-    day: i + 1,
-    date: new Date(Date.now() + i * 86400000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    completed: i === 0 ? null : null
-  }))
+  dailyCheckIns: [
+    { day: 1, weekday: 'Mon', completed: true, deferred: false },
+    { day: 2, weekday: 'Tue', completed: true, deferred: false },
+    { day: 3, weekday: 'Wed', completed: false, deferred: false },
+    { day: 4, weekday: 'Thu', completed: null, deferred: false },
+    { day: 5, weekday: 'Fri', completed: null, deferred: false },
+    { day: 6, weekday: 'Sat', completed: null, deferred: false },
+    { day: 7, weekday: 'Sun', completed: null, deferred: true }
+  ],
+  todayDay: 4
 };

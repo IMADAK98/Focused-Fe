@@ -1,0 +1,43 @@
+<article
+  class="stage-card"
+  [class.stage-card--bottleneck]="isBottleneck"
+  [class.stage-card--accent]="showAccent"
+  [attr.data-type]="type">
+  @if (showAccent) {
+    <span class="stage-card__bar" aria-hidden="true"></span>
+  }
+
+  <div class="stage-card__chrome">
+    @if (draggable) {
+      <button class="stage-card__handle" type="button" cdkDragHandle aria-label="Drag to reorder">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </button>
+    }
+    <span class="stage-card__pill">{{ label }}</span>
+    @if (editable) {
+      <button class="stage-card__edit" type="button" (click)="toggleEdit()" aria-label="Edit stage">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 20h4.5L19 9.5 14.5 5 4 15.5V20z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M13.2 6.3l4.5 4.5" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+      </button>
+    }
+  </div>
+
+  @if (editing()) {
+    <input class="stage-card__title-input" [value]="stage.title" (input)="onTitle($event)" />
+    <textarea class="stage-card__body-input" rows="3" [value]="stage.body" (input)="onBody($event)"></textarea>
+  } @else {
+    <h3 class="stage-card__title">{{ stage.title }}</h3>
+    <p class="stage-card__body">{{ stage.body }}</p>
+  }
+
+  @if (isBottleneck) {
+    <app-bottleneck-callout [bottleneck]="bottleneck" [compact]="true" />
+  }
+
+  @if (stage.intervention) {
+    <span class="stage-card__intervention">{{ stage.intervention }}</span>
+  }
+</article>

@@ -1,0 +1,52 @@
+.bn-inline {
+  margin-top: 0.75rem;
+  background: var(--rd-bottleneck-soft);
+  border: 1px solid #f3c07a;
+  border-radius: 0.45rem;
+  padding: 0.55rem 0.65rem;
+}
+
+.bn-inline__pill {
+  display: inline-block;
+  background: #ea580c;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 9999px;
+  padding: 0.12rem 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.bn-inline__reason {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #9a3412;
+}
+
+.bn-panel {
+  background: var(--rd-bottleneck-soft);
+  border-left: 4px solid var(--rd-bottleneck);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.bn-panel h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--rd-bottleneck);
+}
+
+.bn-panel__title {
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  color: var(--rd-text-primary);
+}
+
+.bn-panel__reason {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--rd-text-secondary);
+}

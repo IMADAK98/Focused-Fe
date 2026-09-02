@@ -1,0 +1,13 @@
+<div class="rd-footer">
+  <div class="rd-footer__inner">
+    @if (showBack) {
+      <app-button variant="secondary" (clicked)="back.emit()">Back</app-button>
+    } @else {
+      <span></span>
+    }
+
+    @if (showNext) {
+      <app-button variant="primary" (clicked)="next.emit()">{{ nextLabel }}</app-button>
+    }
+  </div>
+</div>

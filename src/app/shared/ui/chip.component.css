@@ -1,0 +1,22 @@
+.rd-chip {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--rd-border);
+  background: var(--rd-surface);
+  color: var(--rd-text-secondary);
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+
+.rd-chip:hover {
+  border-color: var(--rd-accent);
+  color: var(--rd-accent);
+}
+
+.rd-chip--selected {
+  background: var(--rd-accent-soft);
+  border-color: var(--rd-accent);
+  color: var(--rd-accent);
+}

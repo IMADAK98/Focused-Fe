@@ -1,45 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { DesignSessionStore } from '../../core/session/design-session.store';
+import { LoopStage } from '../../core/session/types';
 import { FooterCTAComponent } from '../../shared/ui/footer-cta.component';
 import { StageCardComponent } from '../../shared/ui/stage-card.component';
-import { BottleneckCalloutComponent } from '../../shared/ui/bottleneck-callout.component';
+import { InfoBannerComponent } from '../../shared/ui/info-banner.component';
 
 @Component({
   selector: 'app-as-is-page',
   standalone: true,
-  imports: [CommonModule, FooterCTAComponent, StageCardComponent, BottleneckCalloutComponent],
-  template: `
-    <div class="flex flex-col min-h-[calc(100vh-180px)]">
-      <div class="flex-1 px-6 py-8">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="text-3xl font-bold text-rd-text-primary mb-2">Your Current Loop</h2>
-          <p class="text-rd-text-secondary mb-8">Map out how things work today</p>
-
-          <div class="space-y-4">
-            @for (stage of asIsLoop(); track $index) {
-              <app-stage-card
-                [type]="stage.type"
-                [content]="stage.content"
-                [editable]="true"
-                (contentChange)="updateStage($index, $event)" />
-            }
-          </div>
-
-          @if (bottleneck()) {
-            <div class="mt-6">
-              <app-bottleneck-callout [bottleneck]="bottleneck()" />
-            </div>
-          }
-        </div>
-      </div>
-
-      <app-footer-cta
-        (back)="onBack()"
-        (next)="onNext()" />
-    </div>
-  `
+  imports: [CdkDropList, CdkDrag, FooterCTAComponent, StageCardComponent, InfoBannerComponent],
+  templateUrl: './as-is.page.html',
+  styleUrl: './as-is.page.css'
 })
 export class AsIsPage {
   private store = inject(DesignSessionStore);
@@ -47,9 +20,14 @@ export class AsIsPage {
 
   asIsLoop = this.store.asIsLoop;
   bottleneck = this.store.bottleneck;
+  focusArea = this.store.focusArea;
 
-  updateStage(index: number, content: string) {
-    this.store.updateAsIsStage(index, content);
+  updateStage(index: number, patch: Partial<Pick<LoopStage, 'title' | 'body'>>) {
+    this.store.updateAsIsStage(index, patch);
+  }
+
+  onDrop(event: CdkDragDrop<LoopStage[]>) {
+    this.store.reorderAsIsStages(event.previousIndex, event.currentIndex);
   }
 
   onBack() {

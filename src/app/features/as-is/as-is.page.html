@@ -1,0 +1,42 @@
+<div class="rd-page">
+  <div class="rd-page__body">
+    <header class="rd-page__header">
+      <h1>As-Is loop — {{ focusArea()?.name }}</h1>
+      <p>Editable baseline stages. Drag to reorder, edit fields, then continue to Human Calibration.</p>
+      <div class="legend" aria-label="Stage types">
+        <span><i class="legend__dot legend__dot--cue"></i> Cue</span>
+        <span><i class="legend__dot legend__dot--environment"></i> Environment</span>
+        <span><i class="legend__dot legend__dot--friction"></i> Friction</span>
+      </div>
+    </header>
+
+    <div
+      class="stage-flow"
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="onDrop($event)">
+      @for (stage of asIsLoop(); track stage.id; let i = $index; let last = $last) {
+        <div class="stage-flow__item" cdkDrag>
+          <app-stage-card
+            [stage]="stage"
+            [editable]="true"
+            [draggable]="true"
+            [bottleneck]="bottleneck()"
+            (stageChange)="updateStage(i, $event)" />
+          @if (!last) {
+            <span class="stage-flow__arrow" aria-hidden="true">→</span>
+          }
+        </div>
+      }
+    </div>
+
+    <app-info-banner variant="bottleneck">
+      <strong class="bn-word">Bottleneck</strong> is a candidate only. You will Confirm / Pick different / Adjust in Human Calibration — never auto-accepted.
+    </app-info-banner>
+  </div>
+
+  <app-footer-cta
+    nextLabel="Continue to calibration"
+    (back)="onBack()"
+    (next)="onNext()" />
+</div>

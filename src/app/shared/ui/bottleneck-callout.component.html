@@ -1,0 +1,14 @@
+@if (compact) {
+  <div class="bn-inline">
+    <span class="bn-inline__pill">Candidate bottleneck</span>
+    <p class="bn-inline__reason">{{ bottleneck?.reason }}</p>
+  </div>
+} @else {
+  <div class="bn-panel">
+    <h3>Bottleneck Detected</h3>
+    @if (bottleneck) {
+      <p class="bn-panel__title">{{ bottleneck.title }}</p>
+      <p class="bn-panel__reason">{{ bottleneck.reason }}</p>
+    }
+  </div>
+}

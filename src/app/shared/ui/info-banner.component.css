@@ -1,0 +1,29 @@
+.info-banner {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.info-banner p {
+  margin: 0;
+}
+
+.info-banner[data-variant='bottleneck'] {
+  background: var(--rd-bottleneck-soft);
+  border: 1px solid #f3c07a;
+  color: var(--rd-text-primary);
+}
+
+.info-banner[data-variant='accent'] {
+  background: var(--rd-accent-soft);
+  border: 1px solid #c7d2fe;
+  color: var(--rd-text-primary);
+}
+
+.info-banner[data-variant='muted'] {
+  background: #f9fafb;
+  border: 1px solid var(--rd-border);
+  color: var(--rd-text-secondary);
+}

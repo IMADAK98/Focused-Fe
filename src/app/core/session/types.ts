@@ -12,31 +12,34 @@ export interface IntakeChip {
 
 export type StageType = 'cue' | 'environment' | 'friction';
 
-export interface AsIsStage {
+export interface LoopStage {
+  id: string;
   type: StageType;
-  content: string;
+  title: string;
+  body: string;
+  intervention?: string;
 }
 
+export type AsIsStage = LoopStage;
+export type ToBeStage = LoopStage;
+
 export interface Bottleneck {
+  stageId: string;
   stage: StageType;
-  content: string;
+  title: string;
   reason: string;
 }
 
 export interface Outcome {
-  what: string;
-  why: string;
-}
-
-export interface ToBeStage {
-  type: StageType;
-  content: string;
+  statement: string;
+  bottleneckNote: string;
 }
 
 export interface DailyCheckIn {
   day: number;
-  date: string;
+  weekday: string;
   completed: boolean | null;
+  deferred: boolean;
 }
 
 export interface DesignSession {
@@ -47,4 +50,5 @@ export interface DesignSession {
   outcome: Outcome | null;
   toBeLoop: ToBeStage[];
   dailyCheckIns: DailyCheckIn[];
+  todayDay: number;
 }
