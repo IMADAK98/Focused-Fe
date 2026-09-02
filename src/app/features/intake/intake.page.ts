@@ -26,6 +26,6 @@ export class IntakePage {
   }
 
   onNext() {
-    this.router.navigate(['/design/as-is']);
+    void this.store.saveIntake().then(() => this.router.navigate(['/design/as-is']));
   }
 }

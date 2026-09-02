@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
+import { DesignSessionStore } from '../../core/session/design-session.store';
 
 interface Step {
   id: string;
@@ -14,7 +15,10 @@ interface Step {
   templateUrl: './design-shell.component.html',
   styleUrl: './design-shell.component.css'
 })
-export class DesignShellComponent {
+export class DesignShellComponent implements OnInit {
+  private readonly store = inject(DesignSessionStore);
+  readonly error = this.store.error;
+
   steps: Step[] = [
     { id: 'focus-area', label: 'Focus', route: '/design/focus-area' },
     { id: 'intake', label: 'Intake', route: '/design/intake' },
@@ -25,6 +29,10 @@ export class DesignShellComponent {
   ];
 
   constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    void this.store.bootstrap();
+  }
 
   currentIndex(): number {
     const currentRoute = this.router.url;

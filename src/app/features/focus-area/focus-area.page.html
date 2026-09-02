@@ -6,7 +6,7 @@
     </header>
 
     <div class="focus-grid">
-      @for (area of focusAreas; track area.id) {
+      @for (area of focusAreas(); track area.id) {
         <button
           type="button"
           class="focus-card"

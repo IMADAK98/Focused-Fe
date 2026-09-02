@@ -1,8 +1,19 @@
+import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DesignSessionStore } from './design-session.store';
 
 describe('DesignSessionStore', () => {
+  let store: DesignSessionStore;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()]
+    });
+    store = TestBed.inject(DesignSessionStore);
+  });
+
   it('keeps the bottleneck on the same stage id after reorder', () => {
-    const store = new DesignSessionStore();
     const bottleneckId = store.bottleneck()!.stageId;
     const from = store.asIsLoop().findIndex(stage => stage.id === bottleneckId);
 
@@ -13,7 +24,6 @@ describe('DesignSessionStore', () => {
   });
 
   it('records a Yes/No check-in for today without touching Day 7', () => {
-    const store = new DesignSessionStore();
     store.updateDailyCheckIn(4, true);
     store.updateDailyCheckIn(7, true);
 
