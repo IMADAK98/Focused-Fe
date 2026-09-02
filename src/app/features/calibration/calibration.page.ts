@@ -22,6 +22,6 @@ export class CalibrationPage {
   }
 
   onNext() {
-    this.router.navigate(['/design/to-be']);
+    void this.store.confirmCalibration().then(() => this.router.navigate(['/design/to-be']));
   }
 }

@@ -35,6 +35,6 @@ export class AsIsPage {
   }
 
   onNext() {
-    this.router.navigate(['/design/calibration']);
+    void this.store.saveAsIs().then(() => this.router.navigate(['/design/calibration']));
   }
 }

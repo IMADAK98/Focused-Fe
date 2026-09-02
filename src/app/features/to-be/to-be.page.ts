@@ -26,6 +26,6 @@ export class ToBePage {
   }
 
   onNext() {
-    this.router.navigate(['/design/daily-run']);
+    void this.store.confirmToBe().then(() => this.router.navigate(['/design/daily-run']));
   }
 }
