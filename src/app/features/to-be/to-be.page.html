@@ -1,0 +1,40 @@
+<div class="rd-page">
+  <div class="rd-page__body">
+    <header class="rd-page__header">
+      <h1>To-Be loop + Outcome</h1>
+      <p>Redesigned {{ focusArea()?.name }} flow with RedesignInterventions on key stages.</p>
+    </header>
+
+    @if (outcome(); as currentOutcome) {
+      <app-outcome-callout
+        [statement]="currentOutcome.statement"
+        [note]="currentOutcome.bottleneckNote" />
+    }
+
+    <div class="transition">
+      <span class="transition__was">Was: As-Is · snooze loop</span>
+      <span class="transition__arrow" aria-hidden="true">→</span>
+      <span class="transition__now">Now: To-Be · redesigned</span>
+    </div>
+
+    <div class="stage-flow">
+      @for (stage of toBeLoop(); track stage.id; let last = $last) {
+        <div class="stage-flow__item">
+          <app-stage-card [stage]="stage" [showAccent]="true" />
+          @if (!last) {
+            <span class="stage-flow__arrow" aria-hidden="true">→</span>
+          }
+        </div>
+      }
+    </div>
+
+    <app-info-banner variant="accent">
+      Next: Start a 7-day Run with light DailyCheckIn (Yes/No). Day 7 evaluation is deferred.
+    </app-info-banner>
+  </div>
+
+  <app-footer-cta
+    nextLabel="Start 7-day Run"
+    (back)="onBack()"
+    (next)="onNext()" />
+</div>

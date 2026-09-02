@@ -1,0 +1,85 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.85rem;
+  font-size: 0.8rem;
+  color: var(--rd-text-secondary);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+}
+
+.legend__dot--cue {
+  background: var(--rd-stage-cue);
+}
+
+.legend__dot--environment {
+  background: var(--rd-stage-environment);
+}
+
+.legend__dot--friction {
+  background: var(--rd-stage-friction);
+}
+
+.stage-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin: 1.5rem 0 1.25rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.stage-flow__item {
+  display: flex;
+  align-items: stretch;
+  flex: 1 1 0;
+  min-width: 11.5rem;
+}
+
+.stage-flow__item app-stage-card {
+  flex: 1;
+}
+
+.stage-flow__arrow {
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem;
+  color: #9ca3af;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.bn-word {
+  color: #c2410c;
+  font-weight: 700;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  box-shadow: var(--rd-shadow-md);
+  border-radius: 0.75rem;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.35;
+}
+
+.cdk-drag-animating {
+  transition: transform 180ms ease;
+}

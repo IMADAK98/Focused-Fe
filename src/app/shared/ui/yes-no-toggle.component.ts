@@ -1,43 +1,35 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-yes-no-toggle',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="flex gap-2">
-      <button
-        [class]="getButtonClass(true)"
-        (click)="onChange(true)">
-        Yes
-      </button>
-      <button
-        [class]="getButtonClass(false)"
-        (click)="onChange(false)">
-        No
-      </button>
-    </div>
-  `
+  templateUrl: './yes-no-toggle.component.html',
+  styleUrl: './yes-no-toggle.component.css'
 })
 export class YesNoToggleComponent {
   @Input() value: boolean | null = null;
+  @Input() prompt = false;
+  @Input() disabled = false;
   @Output() valueChange = new EventEmitter<boolean>();
 
-  getButtonClass(isYes: boolean): string {
-    const base = 'px-4 py-2 text-sm font-semibold rounded-md transition-colors border';
-    const isActive = this.value === isYes;
-    
-    if (isActive) {
-      return isYes
-        ? `${base} bg-rd-success text-white border-rd-success`
-        : `${base} bg-rd-danger text-white border-rd-danger`;
-    } else {
-      return `${base} bg-rd-surface text-rd-text-secondary border-rd-border hover:border-rd-accent`;
+  onChange(value: boolean) {
+    if (this.disabled) {
+      return;
     }
+    this.valueChange.emit(value);
   }
 
-  onChange(value: boolean) {
-    this.valueChange.emit(value);
+  yesClass(): string {
+    if (this.prompt && this.value === null) {
+      return 'yn-btn yn-btn--prompt';
+    }
+    return this.value === true ? 'yn-btn yn-btn--yes' : 'yn-btn yn-btn--idle';
+  }
+
+  noClass(): string {
+    if (this.prompt && this.value === null) {
+      return 'yn-btn yn-btn--prompt';
+    }
+    return this.value === false ? 'yn-btn yn-btn--no' : 'yn-btn yn-btn--idle';
   }
 }

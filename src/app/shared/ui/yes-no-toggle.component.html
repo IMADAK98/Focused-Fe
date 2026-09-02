@@ -1,0 +1,4 @@
+<div class="yn" [class.yn--disabled]="disabled">
+  <button type="button" [class]="yesClass()" [disabled]="disabled" (click)="onChange(true)">Yes</button>
+  <button type="button" [class]="noClass()" [disabled]="disabled" (click)="onChange(false)">No</button>
+</div>

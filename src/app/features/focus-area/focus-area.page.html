@@ -1,0 +1,23 @@
+<div class="rd-page">
+  <div class="rd-page__body">
+    <header class="rd-page__header">
+      <h1>Choose Your Focus Area</h1>
+      <p>Select the routine you want to design</p>
+    </header>
+
+    <div class="focus-grid">
+      @for (area of focusAreas; track area.id) {
+        <button
+          type="button"
+          class="focus-card"
+          [class.focus-card--selected]="isSelected(area)"
+          (click)="selectFocusArea(area)">
+          <h2>{{ area.name }}</h2>
+          <p>{{ area.description }}</p>
+        </button>
+      }
+    </div>
+  </div>
+
+  <app-footer-cta [showBack]="false" (next)="onNext()" />
+</div>

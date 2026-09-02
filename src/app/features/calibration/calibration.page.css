@@ -1,0 +1,51 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cal-card {
+  margin-top: 1.5rem;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-border);
+  border-radius: 0.75rem;
+  padding: 1.35rem;
+}
+
+.cal-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.cal-card p {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--rd-text-secondary);
+}
+
+.cal-card__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cal-yes,
+.cal-adjust {
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.cal-yes {
+  background: var(--rd-success);
+  color: #fff;
+  border: 0;
+}
+
+.cal-adjust {
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-border);
+  color: var(--rd-text-primary);
+}

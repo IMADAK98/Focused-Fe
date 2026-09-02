@@ -1,0 +1,19 @@
+<div class="rd-page">
+  <div class="rd-page__body">
+    <header class="rd-page__header">
+      <h1>What's Not Working?</h1>
+      <p>Select all that apply</p>
+    </header>
+
+    <div class="chip-row">
+      @for (chip of chips(); track chip.id) {
+        <app-chip
+          [text]="chip.text"
+          [selected]="chip.selected"
+          (toggle)="toggleChip(chip.id)" />
+      }
+    </div>
+  </div>
+
+  <app-footer-cta (back)="onBack()" (next)="onNext()" />
+</div>

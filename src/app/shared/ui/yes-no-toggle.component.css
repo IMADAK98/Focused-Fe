@@ -1,0 +1,50 @@
+.yn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.yn--disabled {
+  pointer-events: none;
+}
+
+.yn-btn {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 0.45rem;
+  border: 1px solid var(--rd-border);
+  background: var(--rd-surface);
+  color: var(--rd-text-secondary);
+  cursor: pointer;
+}
+
+.yn-btn:disabled {
+  cursor: default;
+}
+
+.yn-btn--yes {
+  background: var(--rd-success);
+  border-color: var(--rd-success);
+  color: #fff;
+}
+
+.yn-btn--no {
+  background: var(--rd-danger);
+  border-color: var(--rd-danger);
+  color: #fff;
+}
+
+.yn-btn--idle {
+  background: #f3f4f6;
+  border-color: var(--rd-border);
+  color: #9ca3af;
+}
+
+.yn-btn--prompt {
+  background: var(--rd-surface);
+  border-color: var(--rd-accent);
+  color: var(--rd-accent);
+}

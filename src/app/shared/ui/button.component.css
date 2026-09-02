@@ -1,0 +1,50 @@
+:host {
+  display: inline-flex;
+}
+
+.rd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+.rd-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rd-btn--primary {
+  background: var(--rd-accent);
+  color: var(--rd-on-accent);
+}
+
+.rd-btn--primary:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.rd-btn--secondary {
+  background: var(--rd-surface);
+  color: var(--rd-text-primary);
+  border-color: var(--rd-border);
+}
+
+.rd-btn--secondary:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.rd-btn--ghost {
+  background: transparent;
+  color: var(--rd-text-secondary);
+}
+
+.rd-btn--ghost:hover:not(:disabled) {
+  background: #f9fafb;
+}

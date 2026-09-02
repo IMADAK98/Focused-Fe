@@ -1,0 +1,28 @@
+.outcome {
+  background: var(--rd-success-soft);
+  border: 1px solid #6ee7b7;
+  border-radius: 0.75rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.outcome__kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--rd-success);
+}
+
+.outcome__statement {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--rd-text-primary);
+}
+
+.outcome__note {
+  margin: 0.55rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--rd-text-secondary);
+}

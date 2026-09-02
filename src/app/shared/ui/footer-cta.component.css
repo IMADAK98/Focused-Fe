@@ -1,0 +1,13 @@
+.rd-footer {
+  border-top: 1px solid var(--rd-border);
+  background: var(--rd-surface);
+  padding: 1rem 2.5rem;
+}
+
+.rd-footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

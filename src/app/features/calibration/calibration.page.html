@@ -1,0 +1,26 @@
+<div class="rd-page">
+  <div class="rd-page__body">
+    <header class="rd-page__header">
+      <h1>Bottleneck Calibration</h1>
+      <p>We've identified the key friction point</p>
+    </header>
+
+    @if (bottleneck()) {
+      <app-bottleneck-callout [bottleneck]="bottleneck()" />
+    }
+
+    <section class="cal-card">
+      <h2>Does this feel right?</h2>
+      <p>
+        This is the biggest barrier keeping your routine from working.
+        Fix this, and the rest gets easier.
+      </p>
+      <div class="cal-card__actions">
+        <button class="cal-yes" type="button">Yes, that's it</button>
+        <button class="cal-adjust" type="button">Let me adjust</button>
+      </div>
+    </section>
+  </div>
+
+  <app-footer-cta (back)="onBack()" (next)="onNext()" />
+</div>

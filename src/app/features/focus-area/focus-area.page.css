@@ -1,0 +1,44 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.focus-card {
+  text-align: left;
+  background: var(--rd-surface);
+  border: 2px solid var(--rd-border);
+  border-radius: 0.75rem;
+  padding: 1.35rem;
+  cursor: pointer;
+}
+
+.focus-card h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.focus-card p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--rd-text-secondary);
+}
+
+.focus-card--selected {
+  border-color: var(--rd-accent);
+  box-shadow: var(--rd-shadow-md);
+}
+
+@media (max-width: 800px) {
+  .focus-grid {
+    grid-template-columns: 1fr;
+  }
+}

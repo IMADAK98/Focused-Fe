@@ -1,19 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <button
-      [type]="type"
-      [disabled]="disabled"
-      [class]="buttonClass"
-      (click)="handleClick($event)">
-      <ng-content></ng-content>
-    </button>
-  `
+  templateUrl: './button.component.html',
+  styleUrl: './button.component.css'
 })
 export class ButtonComponent {
   @Input() variant: 'primary' | 'secondary' | 'ghost' = 'primary';
@@ -22,17 +13,15 @@ export class ButtonComponent {
   @Output() clicked = new EventEmitter<Event>();
 
   get buttonClass(): string {
-    const base = 'px-4 py-2 text-sm font-semibold rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
-    
     switch (this.variant) {
       case 'primary':
-        return `${base} bg-rd-accent text-rd-on-accent hover:opacity-90`;
+        return 'rd-btn rd-btn--primary';
       case 'secondary':
-        return `${base} bg-transparent border border-rd-border text-rd-text-primary hover:bg-gray-50`;
+        return 'rd-btn rd-btn--secondary';
       case 'ghost':
-        return `${base} bg-transparent text-rd-text-secondary hover:bg-gray-50`;
+        return 'rd-btn rd-btn--ghost';
       default:
-        return base;
+        return 'rd-btn';
     }
   }
 

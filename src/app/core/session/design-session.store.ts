@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { DesignSession, FocusArea, IntakeChip, AsIsStage, Bottleneck, Outcome, ToBeStage, DailyCheckIn } from './types';
+import { DesignSession, FocusArea, AsIsStage, Bottleneck, Outcome, DailyCheckIn } from './types';
 import { MORNING_ENERGY_FIXTURE } from './mock-fixtures';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class DesignSessionStore {
   readonly outcome = computed(() => this.session().outcome);
   readonly toBeLoop = computed(() => this.session().toBeLoop);
   readonly dailyCheckIns = computed(() => this.session().dailyCheckIns);
+  readonly todayDay = computed(() => this.session().todayDay);
 
   setFocusArea(focusArea: FocusArea) {
     this.session.update(s => ({ ...s, focusArea }));
@@ -29,13 +30,25 @@ export class DesignSessionStore {
     }));
   }
 
-  updateAsIsStage(index: number, content: string) {
+  updateAsIsStage(index: number, patch: Partial<Pick<AsIsStage, 'title' | 'body'>>) {
     this.session.update(s => ({
       ...s,
       asIsLoop: s.asIsLoop.map((stage, i) =>
-        i === index ? { ...stage, content } : stage
+        i === index ? { ...stage, ...patch } : stage
       )
     }));
+  }
+
+  reorderAsIsStages(previousIndex: number, currentIndex: number) {
+    if (previousIndex === currentIndex) {
+      return;
+    }
+    this.session.update(s => {
+      const asIsLoop = [...s.asIsLoop];
+      const [moved] = asIsLoop.splice(previousIndex, 1);
+      asIsLoop.splice(currentIndex, 0, moved);
+      return { ...s, asIsLoop };
+    });
   }
 
   setBottleneck(bottleneck: Bottleneck) {
@@ -46,20 +59,13 @@ export class DesignSessionStore {
     this.session.update(s => ({ ...s, outcome }));
   }
 
-  updateToBeStage(index: number, content: string) {
-    this.session.update(s => ({
-      ...s,
-      toBeLoop: s.toBeLoop.map((stage, i) =>
-        i === index ? { ...stage, content } : stage
-      )
-    }));
-  }
-
   updateDailyCheckIn(day: number, completed: boolean) {
     this.session.update(s => ({
       ...s,
-      dailyCheckIns: s.dailyCheckIns.map(checkIn =>
-        checkIn.day === day ? { ...checkIn, completed } : checkIn
+      dailyCheckIns: s.dailyCheckIns.map((checkIn: DailyCheckIn) =>
+        checkIn.day === day && !checkIn.deferred
+          ? { ...checkIn, completed }
+          : checkIn
       )
     }));
   }
