@@ -1,0 +1,38 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+@theme {
+  --color-rd-bg: var(--rd-bg);
+  --color-rd-surface: var(--rd-surface);
+  --color-rd-text-primary: var(--rd-text-primary);
+  --color-rd-text-secondary: var(--rd-text-secondary);
+  --color-rd-border: var(--rd-border);
+  --color-rd-accent: var(--rd-accent);
+  --color-rd-accent-soft: var(--rd-accent-soft);
+  --color-rd-success: var(--rd-success);
+  --color-rd-success-soft: var(--rd-success-soft);
+  --color-rd-warning: var(--rd-warning);
+  --color-rd-warning-soft: var(--rd-warning-soft);
+  --color-rd-danger: var(--rd-danger);
+  --color-rd-danger-soft: var(--rd-danger-soft);
+  --color-rd-bottleneck: var(--rd-bottleneck);
+  --color-rd-bottleneck-soft: var(--rd-bottleneck-soft);
+  --color-rd-stage-cue: var(--rd-stage-cue);
+  --color-rd-stage-environment: var(--rd-stage-environment);
+  --color-rd-stage-friction: var(--rd-stage-friction);
+  --color-rd-on-accent: var(--rd-on-accent);
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+}
+
+body {
+  margin: 0;
+  font-family: var(--rd-font);
+  background-color: var(--rd-bg);
+  color: var(--rd-text-primary);
+}
