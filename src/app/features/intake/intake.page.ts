@@ -1,6 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { DesignSessionStore } from '../../core/session/design-session.store';
+import { DesignSessionStore, INTAKE_MAX_SELECTIONS } from '../../core/session/design-session.store';
 import { IntakeChip } from '../../core/session/types';
 import { FooterCTAComponent } from '../../shared/ui/footer-cta.component';
 import { ChipComponent } from '../../shared/ui/chip.component';
@@ -31,10 +31,10 @@ export class IntakePage implements OnInit {
     if (count === 0) {
       return 'Tap what gets in the way.';
     }
-    if (count >= 3) {
-      return 'Pick up to 3.';
+    if (count >= INTAKE_MAX_SELECTIONS) {
+      return `Pick up to ${INTAKE_MAX_SELECTIONS}.`;
     }
-    return `Pick up to 3. (${count} selected)`;
+    return `Pick up to ${INTAKE_MAX_SELECTIONS}. (${count} selected)`;
   });
 
   readonly visibleChips = computed(() => this.buildVisibleChips(this.allChips(), this.expanded()));
