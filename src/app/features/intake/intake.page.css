@@ -10,3 +10,29 @@
   gap: 0.75rem;
   margin-top: 1.5rem;
 }
+
+.chip-toggle {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px dashed var(--rd-border);
+  background: transparent;
+  color: var(--rd-accent);
+  cursor: pointer;
+}
+
+.chip-toggle:hover {
+  border-color: var(--rd-accent);
+  background: var(--rd-accent-soft);
+}
+
+.intake-status {
+  margin-top: 1.5rem;
+  color: var(--rd-text-secondary);
+  font-size: 0.9375rem;
+}
+
+.intake-status--error {
+  color: var(--rd-friction, #e11d48);
+}

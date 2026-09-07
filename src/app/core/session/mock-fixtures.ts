@@ -8,13 +8,7 @@ export const FOCUS_AREAS: FocusArea[] = [
 
 export const MORNING_ENERGY_FIXTURE: DesignSession = {
   focusArea: FOCUS_AREAS[0],
-  intakeChips: [
-    { id: '1', text: 'Waking up groggy', selected: true },
-    { id: '2', text: 'Scattered mornings', selected: true },
-    { id: '3', text: 'Phone first thing', selected: true },
-    { id: '4', text: 'No breakfast routine', selected: false },
-    { id: '5', text: 'Late to meetings', selected: false }
-  ],
+  intakeChips: [],
   asIsLoop: [
     {
       id: 'asis-1',

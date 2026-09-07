@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { IntakeChipCatalogItem } from '../session/types';
 
 @Injectable({ providedIn: 'root' })
 export class FocusedApiService {
@@ -15,6 +16,13 @@ export class FocusedApiService {
     return this.http.get<Array<{ id: string; name: string; description: string }>>(
       `${this.base}/focus-area-catalog`
     );
+  }
+
+  getIntakeChipCatalog(focusAreaCatalogId: string, kind: string) {
+    const params = new HttpParams()
+      .set('focusAreaCatalogId', focusAreaCatalogId)
+      .set('kind', kind);
+    return this.http.get<IntakeChipCatalogItem[]>(`${this.base}/intake-chip-catalog`, { params });
   }
 
   seedMorningEnergy() {
