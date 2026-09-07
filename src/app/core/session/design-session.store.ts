@@ -16,6 +16,7 @@ import { FOCUS_AREAS, MORNING_ENERGY_FIXTURE } from './mock-fixtures';
 
 const STAGE_TYPES: StageType[] = ['cue', 'environment', 'friction'];
 const INTAKE_KIND = 'whats_not_working';
+export const INTAKE_MAX_SELECTIONS = 5;
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,7 @@ export class DesignSessionStore {
   readonly selectedIntakeCount = computed(() => this.selectedIntakeChipIds().size);
   readonly canContinueIntake = computed(() => {
     const count = this.selectedIntakeCount();
-    return count >= 1 && count <= 3;
+    return count >= 1 && count <= INTAKE_MAX_SELECTIONS;
   });
   readonly asIsLoop = computed(() => this.session().asIsLoop);
   readonly bottleneck = computed(() => this.session().bottleneck);
@@ -123,7 +124,7 @@ export class DesignSessionStore {
     const selected = new Set(this.selectedIntakeChipIds());
     if (selected.has(chipId)) {
       selected.delete(chipId);
-    } else if (selected.size < 3) {
+    } else if (selected.size < INTAKE_MAX_SELECTIONS) {
       selected.add(chipId);
     }
     this.selectedIntakeChipIds.set(selected);
