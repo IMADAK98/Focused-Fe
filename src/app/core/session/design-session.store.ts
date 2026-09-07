@@ -1,10 +1,21 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { FocusedApiService } from '../api/focused-api.service';
-import { DesignSession, FocusArea, AsIsStage, Bottleneck, Outcome, DailyCheckIn, LoopStage, StageType } from './types';
+import {
+  DesignSession,
+  FocusArea,
+  AsIsStage,
+  Bottleneck,
+  Outcome,
+  DailyCheckIn,
+  LoopStage,
+  StageType,
+  IntakeChipCatalogItem
+} from './types';
 import { FOCUS_AREAS, MORNING_ENERGY_FIXTURE } from './mock-fixtures';
 
 const STAGE_TYPES: StageType[] = ['cue', 'environment', 'friction'];
+const INTAKE_KIND = 'whats_not_working';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +24,34 @@ export class DesignSessionStore {
   private readonly api = inject(FocusedApiService);
   private session = signal<DesignSession>(MORNING_ENERGY_FIXTURE);
   private raw = signal<Record<string, unknown> | null>(null);
+  private selectedIntakeChipIds = signal<Set<string>>(new Set());
 
   readonly catalog = signal<FocusArea[]>(FOCUS_AREAS);
   readonly error = signal<string | null>(null);
   readonly apiId = signal<string | null>(null);
+  readonly focusAreaCatalogId = signal<string>('morning-energy');
+
+  readonly intakeCatalog = signal<IntakeChipCatalogItem[]>([]);
+  readonly intakeCatalogLoading = signal(false);
+  readonly intakeCatalogError = signal<string | null>(null);
 
   readonly focusArea = computed(() => this.session().focusArea);
-  readonly intakeChips = computed(() => this.session().intakeChips);
+  readonly intakeChips = computed(() => {
+    const selected = this.selectedIntakeChipIds();
+    return this.intakeCatalog()
+      .slice()
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map(item => ({
+        id: item.id,
+        text: item.label,
+        selected: selected.has(item.id)
+      }));
+  });
+  readonly selectedIntakeCount = computed(() => this.selectedIntakeChipIds().size);
+  readonly canContinueIntake = computed(() => {
+    const count = this.selectedIntakeCount();
+    return count >= 1 && count <= 3;
+  });
   readonly asIsLoop = computed(() => this.session().asIsLoop);
   readonly bottleneck = computed(() => this.session().bottleneck);
   readonly outcome = computed(() => this.session().outcome);
@@ -35,6 +67,7 @@ export class DesignSessionStore {
         firstValueFrom(this.api.seedMorningEnergy())
       ]);
       this.catalog.set(catalog);
+      this.focusAreaCatalogId.set('morning-energy');
       this.applyApi(seeded);
     } catch {
       this.error.set(
@@ -45,6 +78,7 @@ export class DesignSessionStore {
 
   async selectFocusArea(focusArea: FocusArea): Promise<void> {
     this.error.set(null);
+    this.focusAreaCatalogId.set(focusArea.id);
     try {
       const body = focusArea.id === 'morning-energy'
         ? await firstValueFrom(this.api.seedMorningEnergy())
@@ -61,25 +95,50 @@ export class DesignSessionStore {
     void this.selectFocusArea(focusArea);
   }
 
+  async loadIntakeCatalog(kind = INTAKE_KIND): Promise<void> {
+    const focusAreaCatalogId = this.focusAreaCatalogId();
+    this.intakeCatalogLoading.set(true);
+    this.intakeCatalogError.set(null);
+    try {
+      const items = await firstValueFrom(
+        this.api.getIntakeChipCatalog(focusAreaCatalogId, kind)
+      );
+      this.intakeCatalog.set(items.slice().sort((a, b) => a.sortOrder - b.sortOrder));
+      if (items.length === 0) {
+        this.intakeCatalogError.set(
+          `Intake chip catalog returned empty for ${focusAreaCatalogId} / ${kind}. Implement GET /api/v1/intake-chip-catalog on the backend.`
+        );
+      }
+    } catch {
+      this.intakeCatalogError.set(
+        'Cannot load intake chips from the Focused API. Start the backend and ensure GET /api/v1/intake-chip-catalog is available, then reload.'
+      );
+      this.intakeCatalog.set([]);
+    } finally {
+      this.intakeCatalogLoading.set(false);
+    }
+  }
+
   toggleIntakeChip(chipId: string) {
-    this.session.update(s => ({
-      ...s,
-      intakeChips: s.intakeChips.map(chip =>
-        chip.id === chipId ? { ...chip, selected: !chip.selected } : chip
-      )
-    }));
+    const selected = new Set(this.selectedIntakeChipIds());
+    if (selected.has(chipId)) {
+      selected.delete(chipId);
+    } else if (selected.size < 3) {
+      selected.add(chipId);
+    }
+    this.selectedIntakeChipIds.set(selected);
   }
 
   async saveIntake(): Promise<void> {
     const id = this.apiId();
     const raw = this.raw() as { intake?: Record<string, unknown> } | null;
-    if (!id) {
+    if (!id || !this.canContinueIntake()) {
       return;
     }
+    const selectedChipIds = [...this.selectedIntakeChipIds()];
     const intake = {
       ...(raw?.intake ?? {}),
-      chips: this.intakeChips(),
-      selectedHabits: this.intakeChips().filter(c => c.selected).map(c => c.text)
+      selectedChipIds
     };
     this.applyApi(await firstValueFrom(this.api.saveIntake(id, intake)));
   }
@@ -162,7 +221,26 @@ export class DesignSessionStore {
   private applyApi(api: Record<string, unknown>): void {
     this.raw.set(api);
     this.apiId.set(String(api['id'] ?? ''));
+    this.syncIntakeSelections(api);
     this.session.set(toUiSession(api));
+  }
+
+  private syncIntakeSelections(api: Record<string, unknown>): void {
+    const intake = api['intake'] as
+      | {
+          selectedChipIds?: string[];
+          chips?: Array<{ id?: string; selected?: boolean }>;
+        }
+      | undefined;
+    const fromIds = intake?.selectedChipIds;
+    if (fromIds?.length) {
+      this.selectedIntakeChipIds.set(new Set(fromIds));
+      return;
+    }
+    const fromChips = (intake?.chips ?? [])
+      .filter(chip => chip.selected && chip.id)
+      .map(chip => String(chip.id));
+    this.selectedIntakeChipIds.set(new Set(fromChips));
   }
 }
 
@@ -208,7 +286,7 @@ function toUiSession(api: Record<string, unknown>): DesignSession {
       name: String(api['name'] ?? ''),
       description: String(api['description'] ?? '')
     },
-    intakeChips: ((api['intake'] as { chips?: DesignSession['intakeChips'] } | undefined)?.chips) ?? [],
+    intakeChips: [],
     asIsLoop,
     bottleneck: bottleneckStage
       ? {

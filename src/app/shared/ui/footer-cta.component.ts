@@ -12,6 +12,7 @@ export class FooterCTAComponent {
   @Input() showBack = true;
   @Input() showNext = true;
   @Input() nextLabel = 'Next';
+  @Input() nextDisabled = false;
   @Output() back = new EventEmitter<void>();
   @Output() next = new EventEmitter<void>();
 }

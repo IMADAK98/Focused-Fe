@@ -2,18 +2,33 @@
   <div class="rd-page__body">
     <header class="rd-page__header">
       <h1>What's Not Working?</h1>
-      <p>Select all that apply</p>
+      <p>{{ subcopy() }}</p>
     </header>
 
-    <div class="chip-row">
-      @for (chip of chips(); track chip.id) {
-        <app-chip
-          [text]="chip.text"
-          [selected]="chip.selected"
-          (toggle)="toggleChip(chip.id)" />
-      }
-    </div>
+    @if (loading()) {
+      <p class="intake-status">Loading options…</p>
+    } @else if (catalogError()) {
+      <p class="intake-status intake-status--error">{{ catalogError() }}</p>
+    } @else {
+      <div class="chip-row">
+        @for (chip of visibleChips(); track chip.id) {
+          <app-chip
+            [text]="chip.text"
+            [selected]="chip.selected"
+            (toggle)="toggleChip(chip.id)" />
+        }
+
+        @if (showToggle()) {
+          <button type="button" class="chip-toggle" (click)="toggleExpanded()">
+            {{ expanded() ? 'Show less' : 'Show more' }}
+          </button>
+        }
+      </div>
+    }
   </div>
 
-  <app-footer-cta (back)="onBack()" (next)="onNext()" />
+  <app-footer-cta
+    (back)="onBack()"
+    (next)="onNext()"
+    [nextDisabled]="!canContinue() || loading() || !!catalogError()" />
 </div>

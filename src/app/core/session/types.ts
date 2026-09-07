@@ -4,6 +4,17 @@ export interface FocusArea {
   description: string;
 }
 
+export type IntakeChipGroup = 'energy' | 'device' | 'attention' | 'food' | 'time' | 'environment';
+
+export interface IntakeChipCatalogItem {
+  id: string;
+  label: string;
+  group: IntakeChipGroup;
+  sortOrder: number;
+  focusAreaId: string;
+  intakeKind: string;
+}
+
 export interface IntakeChip {
   id: string;
   text: string;

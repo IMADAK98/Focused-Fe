@@ -7,7 +7,7 @@
     }
 
     @if (showNext) {
-      <app-button variant="primary" (clicked)="next.emit()">{{ nextLabel }}</app-button>
+      <app-button variant="primary" [disabled]="nextDisabled" (clicked)="next.emit()">{{ nextLabel }}</app-button>
     }
   </div>
 </div>
